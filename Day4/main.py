@@ -74,7 +74,39 @@ def part_one():
     return xmas
 
 
+def part_two():
+    str_matrix = []
+    with open("input.txt", "r") as file:
+        for line in file:
+            str_matrix.append(line.rstrip())
+
+    m, n = len(str_matrix), len(str_matrix[0])
+
+    xmas = 0
+
+    def is_xmas(x, y):
+        if str_matrix[x-1][y-1] == str_matrix[x+1][y+1]:
+            return False
+
+        letters = (
+            str_matrix[x-1][y-1] +
+            str_matrix[x+1][y+1] +
+            str_matrix[x-1][y+1] +
+            str_matrix[x+1][y-1]
+        )
+
+        return letters.count("M") == 2 and letters.count("M") == letters.count("S")
+
+    for x in range(1, m-1):
+        for y in range(1, n-1):
+            if str_matrix[x][y] == "A" and is_xmas(x,y):
+                xmas += 1
+
+    return xmas
+
 
 if __name__=="__main__":
     print("Part one answer:")
     print(part_one())
+    print("Part two answer:")
+    print(part_two())
